@@ -9,6 +9,18 @@ public class AvisoFinal extends Aviso {
 
     public AvisoFinal(Compromisso compromisso) {
         super(compromisso);
+        
+        
+       }
+    
+    public void run(){
+        
+      
+        
+     System.out.println(compromisso.getDescricao()+" começa agora.");
+        
+      
+      cancel();
     }
     
 }
