@@ -51,4 +51,9 @@ public class Compromisso {
         return dateFormat.format(data) + ": " + descricao;
     }
 
+    void removeAviso(Aviso aviso) {
+        avisos.remove(aviso);
+        
+    }
+
 }

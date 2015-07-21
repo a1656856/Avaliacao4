@@ -80,7 +80,7 @@ public class Agenda {
 
     public void cancela(Aviso aviso) {
         
-      aviso.getCompromisso();
+      aviso.getCompromisso().removeAviso(aviso);
         
       aviso.cancel();
 
@@ -91,6 +91,7 @@ public class Agenda {
         for(Compromisso c: compromissos){
         
                 cancela(c);
+                
             }
     }
 }
