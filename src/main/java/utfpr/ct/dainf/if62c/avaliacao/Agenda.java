@@ -33,65 +33,54 @@ public class Agenda {
         compromissos.add(compromisso);
         Aviso aviso = new AvisoFinal(compromisso);
         compromisso.registraAviso(aviso);
-        // com a classe Aviso devidamente implementada, o erro de compilação
-        // deverá desaparecer
         timer.schedule(aviso, compromisso.getData());
     }
 
     public void novoAviso(Compromisso compromisso, int antecedencia) {
-        Date date = compromisso.getData();
 
-        Aviso aviso = new Aviso(compromisso);
+        Aviso avis = new Aviso(compromisso);
 
-        AvisoFinal avisoFinal = new AvisoFinal(compromisso);
+        compromisso.registraAviso(avis);
 
-        compromisso.registraAviso(aviso);
-        Timer timer = new Timer(compromisso.getDescricao());
-        timer.schedule(aviso, new Date(date.getTime() - antecedencia * 1000));
+        Date atual = new Date();
+        atual.setTime(System.currentTimeMillis());
 
-        timer.schedule(avisoFinal, date);
-
+        timer.schedule(avis, compromisso.getData().getTime() - atual.getTime()
+                - (antecedencia * 1000));
     }
 
     public void novoAviso(Compromisso compromisso, int antecedencia, int intervalo) {
 
-        Date date = compromisso.getData();
-        Aviso aviso = new Aviso(compromisso);
-        AvisoFinal avisoFinal = new AvisoFinal(compromisso);
-        compromisso.registraAviso(aviso);
-        Timer timer = new Timer(compromisso.getDescricao());
+      Aviso aviso = new Aviso(compromisso);
 
-        timer.schedule(aviso, new Date(date.getTime() - antecedencia * 1000), intervalo * 1000);
+      compromisso.registraAviso(aviso);
 
-        timer.schedule(avisoFinal, date);
+      Date atual = new Date();
+      atual.setTime(System.currentTimeMillis());
 
+        
+      timer.schedule(aviso, compromisso.getData().getTime() - atual.getTime()
+                - (antecedencia * 1000), (intervalo * 1000));
     }
 
     public void cancela(Compromisso compromisso) {
 
-        
-        List<Aviso> avisos = compromisso.getAvisos();
-        
-        for (Aviso a : avisos) {
-            cancela(a);
+      for (Aviso a : compromisso.getAvisos()) {
+            a.cancel();
         }
-        compromissos.remove(compromisso);
+
+        this.compromissos.remove(compromisso);
     }
 
     public void cancela(Aviso aviso) {
-        
-      aviso.getCompromisso().removeAviso(aviso);
-        
-      aviso.cancel();
 
+       aviso.cancel();
+
+       aviso.compromisso.getAvisos().remove(aviso);
     }
 
     public void destroi() {
-       
-        for(Compromisso c: compromissos){
-        
-                cancela(c);
-                
-            }
+
+       timer.cancel();
     }
 }

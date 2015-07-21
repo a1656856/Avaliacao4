@@ -8,7 +8,6 @@ import java.util.TimerTask;
  *
  * @author
  */
-
 public class Aviso extends TimerTask {
 
     protected final Compromisso compromisso;
@@ -19,11 +18,9 @@ public class Aviso extends TimerTask {
 
     @Override
     public void run() {
-        Date data = compromisso.getData();
-        Date dataAtual = new Date();
-        long d2 = data.getTime();
-        long d1 = dataAtual.getTime();
-        System.out.println(compromisso.getDescricao() + " começa em " + (d2 - d1) / 1000 + "s.");
+        Date date = new Date();
+        int segundos = (int) (compromisso.getData().getTime() - System.currentTimeMillis()) / 1000;
+        System.out.println(compromisso.getDescricao() + " começa em " + segundos + "s");
     }
 
     public Compromisso getCompromisso() {
